@@ -9,8 +9,8 @@
       5. i have provided steps to complete the solution # see Apache_SSL.txt
       6. I know Linux admin self networking LAN setup, port forward at kernel level and DNS setup, NTP setup, Firewall at my home
       6. We can use Terraform or CloudFormation to do those activities.
-      7. Datadog, mod_status, sloarWinds etc for monitor
-      8. For scale up and scale out go with custom docker images from org
+      7. Datadog, mod_status, sloarWinds etc for monitoring
+      8. For scale up and scale out go with custom docker images from org container registry service
       
 # Problem2: Credit Card Validation using either python/go
 # Solution2 Analysis:
@@ -18,4 +18,4 @@
       2. There were a lot of conditions to be satisfied for a given input credit card.
       3. I have decided to use some regular expression pattern to solve the challenge. i took sample from  pattern usage     https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html, https://docs.python.org/3/library/re.html
       4. I used python "re" module to solve the puzzle
-      5. CreditCardValidation.py
+      5. Look at CreditCardValidation.py.txt for code
