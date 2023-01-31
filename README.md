@@ -8,7 +8,7 @@
       4. Here i have used manual way
       5. i have provided steps to complete the solution # see Apache_SSL.txt
       6. I know Linux admin self networking LAN setup, port forward at kernel level and DNS setp, NTP setup, Firewall at my home
-      6. We can Terraform or CloudFormation to do those activities.
+      6. We can use Terraform or CloudFormation to do those activities.
       
 # Problem2: Credit Card Validation using either python/go
 # Solution2 Analysis:
