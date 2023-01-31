@@ -98,8 +98,9 @@ ls -lZ /var/www/narayana.com/log
 http://narayana.com
 
 ================================================
-
-# Create own-created SSL Certificates
+#########################################
+# Create own/Self signed SSL Certificates
+#########################################
 
 # CA bundle path
 [root@www ~]# cd /etc/pki/tls/certs 
