@@ -2,12 +2,12 @@
 # Problem1: IaaC to render static html content on the browser with http/https enabled
 # Solution1 Analysis:  
       1. Virtual Machine required with some hardware capacity say 4 gb ram, OS installed either RHEL 7.x, 8.x, Internet connection, Root or sudo root user and access details
-      2. To fullfil problem statement required following softwares I have selected here apache web server for the solution software
+      2. To fullfil problem statement required the following softwares I have selected here apache web server for the solution software
          2.1 Chose Apache Web Server, OpenSSL, Self-Signed or with CA Certificate chains 
       3. Used apache VirtualHost, Directory, mod_ssl  etc directives to host static web content.
       4. Here i have used manual way
       5. i have provided steps to complete the solution # see Apache_SSL.txt
-      6. I know Linux admin self networking LAN setup, port forward at kernel level and DNS setp, NTP setup, Firewall at my home
+      6. I know Linux admin self networking LAN setup, port forward at kernel level and DNS setup, NTP setup, Firewall at my home
       6. We can use Terraform or CloudFormation to do those activities.
       
 # Problem2: Credit Card Validation using either python/go
