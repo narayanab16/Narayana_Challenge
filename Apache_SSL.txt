@@ -4,7 +4,7 @@ sudo user or root user
 
 # Check installed http package
 rpm -qa | grep http*
-# Install http and mod_ssl service
+# Install http and mod_ssl, mod_status service
 sudo dnf install httpd 
 sudo dnf install mod_ssl
 sudo dnf install openssl
