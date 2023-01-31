@@ -1,0 +1,131 @@
+Launch a VM of Operating System RHEL 8.x
+i connect to the VM using putty session
+sudo user or root user
+
+# Check installed http package
+rpm -qa | grep http*
+# Install http and mod_ssl service
+sudo dnf install httpd 
+sudo dnf install mod_ssl
+sudo dnf install openssl
+# add https protocol to server requests
+sudo firewall-cmd --permanent --add-service=https
+# fire config reload
+sudo firewall-cmd --reload
+# start http server
+sudo systemctl start httpd
+# Server status
+sudo systemctl status httpd
+# config reload without loose connections
+sudo systemctl reload httpd
+# enable during bootup start http service optional
+sudo systemctl enable httpd
+
+# static content server path - by default
+/var/www/html
+
+#suppose if i have a hosting site www.narayana.com - i should have my own static path, log
+# access mode and owenership
+mkdir -p /var/www/narayana.com/html
+mkdir -p /var/www/narayana.com/log
+sudo chmod -R 755 /var/www
+sudo chown -R $user:$group /var/www/narayana.com
+# static content file created - as per document
+vi /var/www/narayana.com/html/index.html
+<html>
+<head>
+<title>Hello World</title>
+</head>
+<body>
+<h1>Hello World!</h1>
+</body>
+</html>
+
+# create sites for clients to server for virtual host
+# The sites-enabled directory will hold symbolic links to virtual hosts that we want to publish
+sudo mkdir /etc/httpd/sites-available /etc/httpd/sites-enabled
+
+# update sites-enabled/*.conf and load_module for ssl support if not enabled
+sudo vi /etc/httpd/conf/httpd.conf
+
+IncludeOptional sites-enabled/*.conf
+
+# create a virtual host config file, with ssl enabled, Restrict access from hosts
+sudo vi /etc/httpd/sites-available/narayana.com.conf
+
+<VirtualHost *:80>
+    ServerName www.narayana.com
+    ServerAlias narayana.com
+    DocumentRoot /var/www/narayana.com/html
+    ErrorLog /var/www/narayana.com/log/error.log
+    CustomLog /var/www/narayana.com/log/requests.log combined
+    Redirect permanent / https://narayana.com/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName www.narayana.com
+    ServerAlias narayana.com
+    SSLEngine On
+    SSLProtocol -All +TLSv1 +TLSv1.1 +TLSv1.2
+    SSLCertificateFile "/etc/narayana.com/ssl/certificate.crt"
+    SSLCertificateChainFile "/etc/narayana.com/ssl/ca_bundle.crt"
+    SSLCertificateKeyFile "/etc/narayana.com/ssl/private.key"
+</VirtualHost>
+
+<Directory /var/www/narayana.com/html>
+   Order Deny,Allow
+   Deny from all
+   Allow from narayana.com, www.narayna.com
+</Directory>   
+
+# validate conf file
+sudo apachectl configtest
+
+# Symb links
+sudo ln -s /etc/httpd/sites-available/narayana.com.conf /etc/httpd/sites-enabled/narayana.com.conf
+
+# SELinux enable now and boot time
+sudo setsebool -P httpd_unified 1
+# allow to append messages to log file
+sudo semanage fcontext -a -t httpd_log_t "/var/www/narayana.com/log(/.*)?"
+# restorecon command to apply these changes and have them persist across reboots:
+sudo restorecon -R -v /var/www/narayana.com/log
+# restart httpd service
+sudo systemctl restart httpd
+# log verification
+ls -lZ /var/www/narayana.com/log
+# web page test on browser or curl
+http://narayana.com
+
+================================================
+
+# Create own-created SSL Certificates
+
+# CA bundle path
+[root@www ~]# cd /etc/pki/tls/certs 
+# Create private key file
+[root@www certs]# make server.key 
+umask 77 ; \
+/usr/bin/openssl genrsa -aes128 2048 > server.key
+
+# remove passphrase from private key
+[root@www certs]# /usr/bin/openssl rsa -in server.key -out server.key 
+
+# Cert Sign Request (CSR)
+[root@www certs]#
+make server.csr 
+umask 77 ; \
+/usr/bin/openssl req -utf8 -new -key server.key -subj \
+"/C=IN/ST=AP/L=Nagari/O=IT/OU=SoftwareArchitect/CN=www.narayana.com/emailAddress=contact@narayana.com" \
+-out server.csr
+
+# Sign server cert
+[root@www certs]#
+/usr/bin/openssl x509 -in server.csr -out server.crt -req -signkey server.key -days 365
+
+
+
+
+
+
+
