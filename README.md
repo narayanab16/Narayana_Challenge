@@ -1,4 +1,4 @@
-# Comcast Solution Challenge
+# Solution Challenge
 # Problem1: IaaC to render static html content on the browser with http/https enabled
 # Solution1 Analysis:  
       1. Virtual Machine required with some hardware capacity say 4 gb ram, OS installed either RHEL 7.x, 8.x, Internet connection, Root or sudo root user and access details
